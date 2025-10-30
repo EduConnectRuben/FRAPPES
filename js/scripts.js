@@ -241,24 +241,41 @@ document.addEventListener('DOMContentLoaded', () => {
     function generateOrderPDF() {
         if (typeof window.jspdf === 'undefined') return showNotification("Error: Librería PDF no cargada.", "error");
         if (cart.length === 0) return showNotification("El carrito está vacío.", "error");
+        
         const { jsPDF } = window.jspdf;
         const doc = new jsPDF();
-        doc.setFontSize(22); doc.setFont('helvetica', 'bold');
+        
+        doc.setFontSize(22);
+        doc.setFont('helvetica', 'bold');
         doc.text('Comprobante de Pedido - Frappés Valentina', 105, 20, { align: 'center' });
-        doc.setFontSize(12); doc.setFont('helvetica', 'normal');
+        
+        doc.setFontSize(12);
+        doc.setFont('helvetica', 'normal');
         doc.text(`Fecha: ${new Date().toLocaleDateString()}`, 20, 35);
         doc.text(`Cliente: Invitado`, 20, 41);
+        
         const tableColumn = ["Producto", "Cantidad", "Precio Unit.", "Subtotal"];
-        const tableRows = []; let total = 0;
+        const tableRows = [];
+        let total = 0;
+        
         cart.forEach(item => {
             const itemTotal = item.price * item.quantity;
             tableRows.push([item.name, item.quantity, `Bs ${item.price.toFixed(2)}`, `Bs ${itemTotal.toFixed(2)}`]);
             total += itemTotal;
         });
+        
         doc.autoTable({ head: [tableColumn], body: tableRows, startY: 50 });
-        doc.setFontSize(14); doc.setFont('helvetica', 'bold');
+        
+        doc.setFontSize(14);
+        doc.setFont('helvetica', 'bold');
         doc.text(`Total a Pagar: Bs ${total.toFixed(2)}`, 190, doc.lastAutoTable.finalY + 15, { align: 'right' });
-        doc.save(`pedido-frappes-valentina-${Date.now()}.pdf`);
+
+        // ======================= ¡AQUÍ ESTÁ EL CAMBIO! =======================
+        // En lugar de forzar la descarga, genera un Data URI y lo abre en una nueva pestaña.
+        const pdfDataUri = doc.output('datauristring');
+        window.open(pdfDataUri, '_blank');
+        // ======================================================================
+        
         updateStockAfterPurchase();
         cart = []; 
         saveCartToStorage(); 
@@ -280,7 +297,11 @@ document.addEventListener('DOMContentLoaded', () => {
         doc.autoTable({ startY: 65, theme: 'plain', body: [['Nombre:', data.name], ['Email:', data.email], ['Fecha:', data.date], ['Hora:', data.time], ['Personas:', data.guests]] });
         doc.setFontSize(10);
         doc.text('Por favor, presenta este comprobante al llegar a la tienda.', 20, doc.lastAutoTable.finalY + 20);
-        doc.save(`reserva-frappes-valentina-${Date.now()}.pdf`);
+        
+        // También puedes aplicar la misma lógica aquí si lo deseas
+        const pdfDataUri = doc.output('datauristring');
+        window.open(pdfDataUri, '_blank');
+        // doc.save(`reserva-frappes-valentina-${Date.now()}.pdf`); // Línea original
     }
 
     function showNotification(message, type = 'success') {
