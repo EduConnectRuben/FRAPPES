@@ -176,7 +176,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         document.getElementById('checkout-btn').addEventListener('click', () => {
             if (cart.length === 0) return;
-            const yourWhatsappNumber = '59173683068'; 
+            const yourWhatsappNumber = '59174420831'; 
             let orderMessage = `¡Hola Frappés Valentina! 👋 Quisiera hacer el siguiente pedido:\n\n`;
             let total = 0;
             cart.forEach(item => {
@@ -200,7 +200,7 @@ document.addEventListener('DOMContentLoaded', () => {
         reservationForm.addEventListener('submit', e => {
             e.preventDefault();
             const reservationData = Object.fromEntries(new FormData(reservationForm).entries());
-            const yourWhatsappNumber = '59173683068';
+            const yourWhatsappNumber = '59174420831';
             let reservationMessage = `¡Hola Frappés Valentina! 👋 Quisiera hacer una reserva:\n\n*Nombre:* ${reservationData.name}\n*Fecha:* ${reservationData.date}\n*Hora:* ${reservationData.time}\n*Personas:* ${reservationData.guests}\n\n¡Por favor confirmar!`;
             const encodedMessage = encodeURIComponent(reservationMessage);
             const whatsappUrl = `https://wa.me/${yourWhatsappNumber}?text=${encodedMessage}`;
