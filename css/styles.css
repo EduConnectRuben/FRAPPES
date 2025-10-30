@@ -400,10 +400,10 @@ body {
    =================================================================== */
 .whatsapp-float {
     position: fixed;
-    width: 60px;
-    height: 60px;
-    bottom: 40px;
-    left: 40px; /* Cambiado de right a left */
+    width: 55px;
+    height: 55px;
+    bottom: 20px;
+    left: 20px; /* Cambiado de right a left */
     background-color: #25d366;
     color: #FFF;
     border-radius: 50px;
