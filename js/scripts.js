@@ -537,8 +537,17 @@ document.addEventListener('DOMContentLoaded', () => {
         doc.setFont('helvetica', 'normal');
         doc.text(["Por favor, presenta este comprobante al llegar.", "Si necesitas cancelar o modificar, contáctanos."], pageWidth / 2, doc.internal.pageSize.getHeight() - 15, { align: 'center' });
         
-        // **CAMBIO CLAVE:** Usar 'dataurlnewwindow' para abrir en una nueva pestaña
-        doc.output('dataurlnewwindow');
+        // Abrir el PDF
+            // --- MÉTODO PARA WINDOWS ---
+            // doc.output('dataurlnewwindow')
+            
+             // --- MÉTODO COMPATIBLE CON MÓVILES ---
+        const pdfBlob = doc.output('blob');
+        const pdfUrl = URL.createObjectURL(pdfBlob);
+        window.open(pdfUrl, '_blank');
+            
+        // --- MÉTODO DE DESCARGA DIRECTA (PARA MÓVIL Y ESCRITORIO) ---
+        //doc.save(`credencial-${fullName.replace(/\s/g, '_')}.pdf`);
     }
 
     function showNotification(message, type = 'success') {
