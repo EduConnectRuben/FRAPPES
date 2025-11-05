@@ -444,7 +444,19 @@ document.addEventListener('DOMContentLoaded', () => {
         
 
         // **CAMBIO CLAVE:** Usar 'dataurlnewwindow' para abrir en una nueva pestaña
-        doc.output('dataurlnewwindow');
+        //doc.output('dataurlnewwindow');
+        
+        // Abrir el PDF
+            // --- MÉTODO PARA WINDOWS ---
+            // doc.output('dataurlnewwindow')
+            
+             // --- MÉTODO COMPATIBLE CON MÓVILES ---
+        const pdfBlob = doc.output('blob');
+        const pdfUrl = URL.createObjectURL(pdfBlob);
+        window.open(pdfUrl, '_blank');
+            
+        // --- MÉTODO DE DESCARGA DIRECTA (PARA MÓVIL Y ESCRITORIO) ---
+        //doc.save(`credencial-${fullName.replace(/\s/g, '_')}.pdf`);
     }
 
     // ===================================================================
